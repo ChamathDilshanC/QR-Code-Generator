@@ -1,0 +1,27 @@
+{
+  "name": "qr-code-generator",
+  "version": "1.0.0",
+  "scripts": {
+    "build:frontend": "cd qr-frontend && npm run build",
+    "deploy:frontend": "npm run build:frontend && firebase deploy --only hosting",
+    "deploy:functions": "firebase deploy --only functions",
+    "deploy:all": "npm run build:frontend && firebase deploy",
+    "dev:frontend": "cd qr-frontend && npm run dev",
+    "install:all": "npm install && cd qr-frontend && npm install && cd ../functions && npm install"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.12",
+    "express": "^5.1.0",
+    "firebase": "^12.1.0",
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^6.4.0",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.0",
+    "@types/qrcode": "^1.5.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
