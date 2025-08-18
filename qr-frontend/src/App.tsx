@@ -65,16 +65,21 @@ function App() {
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute rounded-full -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-600/20 blur-3xl animate-pulse-slow"></div>
-        <div
-          className="absolute rounded-full -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-cyan-400/20 to-blue-600/20 blur-3xl animate-pulse-slow"
-          style={{ animationDelay: "1s" }}
-        ></div>
-        <div className="absolute w-64 h-64 transform -translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 left-1/2 bg-gradient-to-br from-indigo-400/10 to-purple-600/10 blur-2xl animate-bounce-gentle"></div>
-      </div>
+    <div className="relative w-full min-h-screen bg-white">
+      {/* Dotted Grid Background */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background: "white",
+          backgroundImage: `
+            radial-gradient(circle, rgba(139,92,246,0.6) 1px, transparent 1px),
+            radial-gradient(circle, rgba(59,130,246,0.4) 1px, transparent 1px),
+            radial-gradient(circle, rgba(236,72,153,0.5) 1px, transparent 1px)
+          `,
+          backgroundSize: "20px 20px, 40px 40px, 60px 60px",
+          backgroundPosition: "0 0, 10px 10px, 30px 30px",
+        }}
+      />
 
       <div
         className={`container mx-auto px-4 py-8 relative z-10 transition-all duration-1000 ${
