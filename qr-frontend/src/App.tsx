@@ -92,7 +92,94 @@ function App() {
             {/* Animated QR Icon */}
             <div className="relative flex-shrink-0">
               <div className="relative group">
-                <QrCode className="relative z-10 w-20 h-20 text-transparent transition-all duration-500 transform lg:w-24 lg:h-24 bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-500 bg-clip-text filter drop-shadow-lg group-hover:scale-110 group-hover:rotate-3" />
+                {/* Modern Custom QR SVG */}
+                <svg
+                  className="relative z-10 w-20 h-20 lg:w-24 lg:h-24 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-3 filter drop-shadow-lg"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id="qr-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#3b82f6', stopOpacity: 1 }} />
+                      <stop offset="50%" style={{ stopColor: '#8b5cf6', stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: '#06b6d4', stopOpacity: 1 }} />
+                    </linearGradient>
+                    <linearGradient id="qr-gradient-2" x1="100%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: '#06b6d4', stopOpacity: 1 }} />
+                      <stop offset="50%" style={{ stopColor: '#8b5cf6', stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: '#3b82f6', stopOpacity: 1 }} />
+                    </linearGradient>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Corner Markers - Top Left */}
+                  <g className="animate-pulse-slow" style={{ animationDelay: '0s' }}>
+                    <rect x="8" y="8" width="28" height="28" rx="4" fill="url(#qr-gradient-1)" filter="url(#glow)" />
+                    <rect x="14" y="14" width="16" height="16" rx="2" fill="white" />
+                    <rect x="18" y="18" width="8" height="8" rx="1" fill="url(#qr-gradient-1)" />
+                  </g>
+
+                  {/* Corner Markers - Top Right */}
+                  <g className="animate-pulse-slow" style={{ animationDelay: '0.3s' }}>
+                    <rect x="64" y="8" width="28" height="28" rx="4" fill="url(#qr-gradient-2)" filter="url(#glow)" />
+                    <rect x="70" y="14" width="16" height="16" rx="2" fill="white" />
+                    <rect x="74" y="18" width="8" height="8" rx="1" fill="url(#qr-gradient-2)" />
+                  </g>
+
+                  {/* Corner Markers - Bottom Left */}
+                  <g className="animate-pulse-slow" style={{ animationDelay: '0.6s' }}>
+                    <rect x="8" y="64" width="28" height="28" rx="4" fill="url(#qr-gradient-1)" filter="url(#glow)" />
+                    <rect x="14" y="70" width="16" height="16" rx="2" fill="white" />
+                    <rect x="18" y="74" width="8" height="8" rx="1" fill="url(#qr-gradient-1)" />
+                  </g>
+
+                  {/* Data Pattern - Modern Dots */}
+                  <g fill="url(#qr-gradient-1)" opacity="0.9">
+                    <circle cx="50" cy="20" r="3" className="animate-pulse" style={{ animationDelay: '0.1s' }} />
+                    <circle cx="58" cy="20" r="3" className="animate-pulse" style={{ animationDelay: '0.2s' }} />
+
+                    <rect x="44" y="28" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.3s' }} />
+                    <rect x="52" y="28" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.4s' }} />
+
+                    <circle cx="46" cy="42" r="3" className="animate-pulse" style={{ animationDelay: '0.5s' }} />
+                    <circle cx="54" cy="42" r="3" className="animate-pulse" style={{ animationDelay: '0.6s' }} />
+
+                    <rect x="44" y="48" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.7s' }} />
+                    <rect x="52" y="48" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.8s' }} />
+
+                    <circle cx="46" cy="62" r="3" className="animate-pulse" style={{ animationDelay: '0.9s' }} />
+                    <circle cx="54" cy="62" r="3" className="animate-pulse" style={{ animationDelay: '1s' }} />
+                  </g>
+
+                  {/* Right side pattern */}
+                  <g fill="url(#qr-gradient-2)" opacity="0.9">
+                    <rect x="64" y="44" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.2s' }} />
+                    <rect x="72" y="44" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.4s' }} />
+                    <rect x="80" y="44" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.6s' }} />
+
+                    <circle cx="67" cy="56" r="3" className="animate-pulse" style={{ animationDelay: '0.3s' }} />
+                    <circle cx="75" cy="56" r="3" className="animate-pulse" style={{ animationDelay: '0.5s' }} />
+                    <circle cx="83" cy="56" r="3" className="animate-pulse" style={{ animationDelay: '0.7s' }} />
+                  </g>
+
+                  {/* Bottom pattern */}
+                  <g fill="url(#qr-gradient-1)" opacity="0.9">
+                    <circle cx="46" cy="72" r="3" className="animate-pulse" style={{ animationDelay: '0.4s' }} />
+                    <circle cx="54" cy="72" r="3" className="animate-pulse" style={{ animationDelay: '0.6s' }} />
+
+                    <rect x="44" y="80" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.5s' }} />
+                    <rect x="52" y="80" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.7s' }} />
+                    <rect x="60" y="80" width="6" height="6" rx="1" className="animate-pulse" style={{ animationDelay: '0.9s' }} />
+                  </g>
+                </svg>
+
+                {/* Glow effects */}
                 <div className="absolute inset-0 w-20 h-20 lg:w-24 lg:h-24 rounded-2xl bg-gradient-to-br from-blue-400/30 via-purple-400/30 to-cyan-400/30 blur-2xl animate-pulse-slow"></div>
                 <div
                   className="absolute inset-0 w-20 h-20 lg:w-24 lg:h-24 rounded-2xl bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-xl animate-ping"

@@ -1,12 +1,12 @@
 import {
-  Copy,
-  Download,
-  Eye,
-  EyeOff,
-  Palette,
-  RefreshCw,
-  Settings,
-  Sparkles,
+    Copy,
+    Download,
+    Eye,
+    EyeOff,
+    Palette,
+    RefreshCw,
+    Settings,
+    Sparkles,
 } from "lucide-react";
 import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
@@ -181,6 +181,32 @@ const QRCodeGenerator = () => {
               </div>
             </div>
           </div>
+
+          {/* Generate Button - Moved to top */}
+          <button
+            onClick={generateQR}
+            disabled={isGenerating}
+            className="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-cyan-600 hover:from-blue-700 hover:via-blue-800 hover:to-cyan-700 text-white py-4 px-6 rounded-2xl font-bold transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl focus-ring disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-3 group shadow-lg"
+          >
+            <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-white/20 via-transparent to-white/20 group-hover:opacity-100"></div>
+            <div className="absolute inset-0 transition-transform duration-700 ease-out -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:translate-x-full"></div>
+            {isGenerating ? (
+              <>
+                <RefreshCw className="z-10 w-5 h-5 animate-spin" />
+                <span className="z-10 text-white">Generating...</span>
+              </>
+            ) : (
+              <>
+                <div className="z-10 p-1 transition-colors duration-300 rounded-full bg-white/20 group-hover:bg-white/30">
+                  <Sparkles className="w-4 h-4 text-white transition-transform duration-300 group-hover:scale-110" />
+                </div>
+                <span className="z-10 text-white transition-colors duration-300 group-hover:text-white">
+                  Generate QR Code
+                </span>
+                <div className="z-10 w-2 h-2 transition-all duration-300 rounded-full bg-white/40 group-hover:bg-white/60"></div>
+              </>
+            )}
+          </button>
 
           {/* Color Selection */}
           <div className="space-y-8">
@@ -358,12 +384,63 @@ const QRCodeGenerator = () => {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Advanced Settings */}
+        {/* QR Code Display */}
+        <div className="flex flex-col items-center space-y-6">
+          <div className="relative group">
+            <div className="bg-gradient-to-br from-white to-slate-50 rounded-2xl p-8 shadow-medium border border-slate-200 flex items-center justify-center min-h-[350px] transition-all duration-300 group-hover:shadow-strong">
+              <canvas
+                ref={canvasRef}
+                className={`max-w-full h-auto rounded-lg transition-all duration-300 ${
+                  qrCodeUrl ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                }`}
+                style={{ display: qrCodeUrl ? "block" : "none" }}
+              />
+              {!qrCodeUrl && (
+                <div className="text-center animate-pulse">
+                  <div className="flex items-center justify-center w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-slate-200 to-slate-300 rounded-2xl">
+                    <div className="w-16 h-16 border-2 border-dashed border-slate-400 rounded-xl"></div>
+                  </div>
+                  <p className="font-medium text-slate-500">
+                    Your QR code will appear here
+                  </p>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Start typing to generate automatically
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {qrCodeUrl && (
+            <div className="flex flex-col w-full gap-3 sm:flex-row animate-slide-up">
+              <button
+                onClick={downloadQR}
+                className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-200 transform hover:scale-[1.02] focus-ring"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download</span>
+              </button>
+              <button
+                onClick={copyToClipboard}
+                className={`flex-1 flex items-center justify-center space-x-2 py-3 px-6 rounded-xl font-medium transition-all duration-200 transform hover:scale-[1.02] focus-ring ${
+                  copied
+                    ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                }`}
+              >
+                <Copy className="w-4 h-4" />
+                <span>{copied ? "Copied!" : "Copy"}</span>
+              </button>
+            </div>
+          )}
+
+          {/* Advanced Settings - Moved here */}
           {showAdvanced && (
-            <div className="p-4 space-y-4 border bg-slate-50/50 rounded-xl border-slate-200 animate-slide-up">
+            <div className="w-full p-6 space-y-4 border bg-white/80 backdrop-blur-sm rounded-2xl border-slate-200 animate-slide-up shadow-medium">
               <div>
-                <label className="block mb-2 text-sm font-semibold text-slate-700">
+                <label className="block mb-3 text-sm font-semibold text-slate-700">
                   Size: {qrSize}px
                 </label>
                 <input
@@ -434,81 +511,19 @@ const QRCodeGenerator = () => {
                   ))}
                 </div>
               </div>
-            </div>
-          )}
 
-          <button
-            onClick={generateQR}
-            disabled={isGenerating}
-            className="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-cyan-600 hover:from-blue-700 hover:via-blue-800 hover:to-cyan-700 text-white py-4 px-6 rounded-2xl font-bold transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl focus-ring disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-3 group shadow-lg"
-          >
-            <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-white/20 via-transparent to-white/20 group-hover:opacity-100"></div>
-            <div className="absolute inset-0 transition-transform duration-700 ease-out -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:translate-x-full"></div>
-            {isGenerating ? (
-              <>
-                <RefreshCw className="z-10 w-5 h-5 animate-spin" />
-                <span className="z-10 text-white">Generating...</span>
-              </>
-            ) : (
-              <>
-                <div className="z-10 p-1 transition-colors duration-300 rounded-full bg-white/20 group-hover:bg-white/30">
-                  <Sparkles className="w-4 h-4 text-white transition-transform duration-300 group-hover:scale-110" />
-                </div>
-                <span className="z-10 text-white transition-colors duration-300 group-hover:text-white">
-                  Generate QR Code
-                </span>
-                <div className="z-10 w-2 h-2 transition-all duration-300 rounded-full bg-white/40 group-hover:bg-white/60"></div>
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* QR Code Display */}
-        <div className="flex flex-col items-center space-y-6">
-          <div className="relative group">
-            <div className="bg-gradient-to-br from-white to-slate-50 rounded-2xl p-8 shadow-medium border border-slate-200 flex items-center justify-center min-h-[350px] transition-all duration-300 group-hover:shadow-strong">
-              <canvas
-                ref={canvasRef}
-                className={`max-w-full h-auto rounded-lg transition-all duration-300 ${
-                  qrCodeUrl ? "opacity-100 scale-100" : "opacity-0 scale-95"
-                }`}
-                style={{ display: qrCodeUrl ? "block" : "none" }}
-              />
-              {!qrCodeUrl && (
-                <div className="text-center animate-pulse">
-                  <div className="flex items-center justify-center w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-slate-200 to-slate-300 rounded-2xl">
-                    <div className="w-16 h-16 border-2 border-dashed border-slate-400 rounded-xl"></div>
-                  </div>
-                  <p className="font-medium text-slate-500">
-                    Your QR code will appear here
-                  </p>
-                  <p className="mt-1 text-sm text-slate-400">
-                    Start typing to generate automatically
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {qrCodeUrl && (
-            <div className="flex flex-col w-full gap-3 sm:flex-row animate-slide-up">
+              {/* Reset Button */}
               <button
-                onClick={downloadQR}
-                className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-200 transform hover:scale-[1.02] focus-ring"
+                onClick={() => {
+                  setQrColor("#2563eb");
+                  setBgColor("#ffffff");
+                  setQrSize(300);
+                  setErrorLevel("M");
+                }}
+                className="w-full px-4 py-2.5 text-sm font-medium text-slate-700 bg-white border-2 border-slate-200 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 focus-ring flex items-center justify-center space-x-2"
               >
-                <Download className="w-4 h-4" />
-                <span>Download</span>
-              </button>
-              <button
-                onClick={copyToClipboard}
-                className={`flex-1 flex items-center justify-center space-x-2 py-3 px-6 rounded-xl font-medium transition-all duration-200 transform hover:scale-[1.02] focus-ring ${
-                  copied
-                    ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white"
-                    : "bg-slate-100 hover:bg-slate-200 text-slate-700"
-                }`}
-              >
-                <Copy className="w-4 h-4" />
-                <span>{copied ? "Copied!" : "Copy"}</span>
+                <RefreshCw className="w-4 h-4" />
+                <span>Reset to Defaults</span>
               </button>
             </div>
           )}
