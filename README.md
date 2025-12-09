@@ -14,6 +14,9 @@ _Create stunning QR codes with advanced customization options. Professional-grad
 [🚀 **Live Demo**](https://qr-code-generator-3f464.web.app) | [📱 **Try Now**](https://qr-code-generator-3f464.web.app) | [⭐ **Star on GitHub**](https://github.com/ChamathDilshanC/QR-Code-Generator)
 
 </div>
+<div align="center">
+<img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/efc08cc3-da8d-4995-9429-1a73ee0e6cdd" />
+</div>
 
 ## ✨ Features
 
